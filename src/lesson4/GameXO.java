@@ -4,8 +4,8 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class GameXO {
-    static final int SIZE = 3;
-//    static final int DOTS_TO_WIN = 3;
+    static final int SIZE = 5;
+    static final int DOTS_TO_WIN = 4;
 
     static final char DOT_X = 'X';
     static final char DOT_O = 'O';
@@ -26,7 +26,7 @@ public class GameXO {
                 System.out.println("Игрок победил!!!");
                 break;
             }
-            if(isFull()){
+            if (isFull()) {
                 System.out.println("Ничья, не осталось места ходить!");
                 break;
             }
@@ -37,7 +37,7 @@ public class GameXO {
                 System.out.println("Компьютер победил!!!");
                 break;
             }
-            if(isFull()){
+            if (isFull()) {
                 System.out.println("Ничья, не осталось места ходить!");
                 break;
             }
@@ -81,11 +81,28 @@ public class GameXO {
     }
 
     public static void aiTurn() {
-        int x, y;
-        do {
-            x = random.nextInt(SIZE);
-            y = random.nextInt(SIZE);
-        } while (!isCellValid(x, y));
+        int x = -1, y = -1;
+
+
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                if (isCellValid(j, i)) {
+                    map[i][j] = DOT_X;
+                    if (checkWin(DOT_X)) {
+                        x = j;
+                        y = i;
+                    }
+                    map[i][j] = DOT_EMPTY;
+                }
+            }
+        }
+        if (x == -1 && y == -1) {
+            do {
+                x = random.nextInt(SIZE);
+                y = random.nextInt(SIZE);
+            } while (!isCellValid(x, y));
+        }
+
         map[y][x] = DOT_O;
     }
 
@@ -101,18 +118,79 @@ public class GameXO {
     }
 
     public static boolean checkWin(char symbol) {
-        if (map[0][0] == symbol && map[0][1] == symbol && map[0][2] == symbol) return true;
-        if (map[1][0] == symbol && map[1][1] == symbol && map[1][2] == symbol) return true;
-        if (map[2][0] == symbol && map[2][1] == symbol && map[2][2] == symbol) return true;
-
-        if (map[0][0] == symbol && map[1][0] == symbol && map[2][0] == symbol) return true;
-        if (map[0][1] == symbol && map[1][1] == symbol && map[2][1] == symbol) return true;
-        if (map[0][2] == symbol && map[1][2] == symbol && map[2][2] == symbol) return true;
-
-        if (map[0][0] == symbol && map[1][1] == symbol && map[2][2] == symbol) return true;
-        if (map[0][2] == symbol && map[1][1] == symbol && map[2][0] == symbol) return true;
+//        if (map[0][0] == symbol && map[0][1] == symbol && map[0][2] == symbol) return true;
+//        if (map[1][0] == symbol && map[1][1] == symbol && map[1][2] == symbol) return true;
+//        if (map[2][0] == symbol && map[2][1] == symbol && map[2][2] == symbol) return true;
+//
+//        if (map[0][0] == symbol && map[1][0] == symbol && map[2][0] == symbol) return true;
+//        if (map[0][1] == symbol && map[1][1] == symbol && map[2][1] == symbol) return true;
+//        if (map[0][2] == symbol && map[1][2] == symbol && map[2][2] == symbol) return true;
+//
+//        if (map[0][0] == symbol && map[1][1] == symbol && map[2][2] == symbol) return true;
+//        if (map[0][2] == symbol && map[1][1] == symbol && map[2][0] == symbol) return true;
+//
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                if (checkGorizont(i, j, symbol) || checkVertical(i, j, symbol)
+                        || checkDiogonal1(i, j, symbol) || checkDiogonal2(i, j, symbol)) {
+                    return true;
+                }
+            }
+        }
 
         return false;
+    }
+
+    public static boolean checkGorizont(int x, int y, char symbol) {
+        if (x < 0 || y < 0 || x + DOTS_TO_WIN > SIZE) {
+            return false;
+        }
+        int k = 0;
+        for (int i = 0; i < DOTS_TO_WIN; i++) {
+            if (map[i + x][y] == symbol) {
+                k++;
+            }
+        }
+        return k == DOTS_TO_WIN;
+    }
+
+    public static boolean checkVertical(int x, int y, char symbol) {
+        if (x < 0 || y < 0 || y + DOTS_TO_WIN > SIZE) {
+            return false;
+        }
+        int k = 0;
+        for (int i = 0; i < DOTS_TO_WIN; i++) {
+            if (map[x][y + i] == symbol) {
+                k++;
+            }
+        }
+        return k == DOTS_TO_WIN;
+    }
+
+    public static boolean checkDiogonal1(int x, int y, char symbol) {
+        if (x < 0 || y < 0 || x + DOTS_TO_WIN > SIZE || y + DOTS_TO_WIN > SIZE) {
+            return false;
+        }
+        int k = 0;
+        for (int i = 0; i < DOTS_TO_WIN; i++) {
+            if (map[x + i][y + i] == symbol) {
+                k++;
+            }
+        }
+        return k == DOTS_TO_WIN;
+    }
+
+    public static boolean checkDiogonal2(int x, int y, char symbol) {
+        if (x < 0  || x + DOTS_TO_WIN > SIZE || y+1 - DOTS_TO_WIN < 0) {
+            return false;
+        }
+        int k = 0;
+        for (int i = 0; i < DOTS_TO_WIN; i++) {
+            if (map[x + i][y - i] == symbol) {
+                k++;
+            }
+        }
+        return k == DOTS_TO_WIN;
     }
 
     public static boolean isFull() {
