@@ -22,7 +22,16 @@ public class Plate {
         this.food = food;
     }
 
-    public void decreaseFood(int amount){
-        food -= amount;
+    public boolean decreaseFood(int amount) {
+        if (food < amount) {
+            return false;
+        } else {
+            food -= amount;
+            return true;
+        }
+    }
+
+    public void addFood(int n) {
+        food += n;
     }
 }
