@@ -12,9 +12,11 @@ public class XOGame extends JFrame {
     JButton[][] btns;
 
     public XOGame() {
-        setBounds(300, 200, 600, 600);
+        setBounds(300, 200, 600, 630);
         setTitle("XOGame");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+        JFrame settingWindow = new Setting();
 
         Font font = new Font("Arial", Font.BOLD, 24);
         btns = new JButton[Logic.SIZE][Logic.SIZE];
@@ -39,7 +41,32 @@ public class XOGame extends JFrame {
                 panel.add(btns[i][j]);
             }
         }
-        add(panel);
+        add(panel,BorderLayout.CENTER);
+
+        JPanel downPanel = new JPanel();
+        downPanel.setLayout(new GridLayout(1,2));
+        JButton btnNewGame = new JButton("New game");
+        btnNewGame.setBackground(Color.cyan);
+        JButton btnExit = new JButton("Exit");
+        btnExit.setBackground(Color.pink);
+        downPanel.add(btnNewGame);
+        downPanel.add(btnExit);
+        add(downPanel,BorderLayout.SOUTH);
+
+        btnNewGame.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                settingWindow.setVisible(true);
+            }
+        });
+
+        btnExit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+
         setVisible(true);
         start();
     }
