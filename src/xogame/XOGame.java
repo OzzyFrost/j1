@@ -30,7 +30,7 @@ public class XOGame extends JFrame {
 
         JPanel downPanel = new JPanel();
         downPanel.setLayout(new GridLayout(1, 2));
-        JButton btnNewGame = new JButton("New game");
+        JButton btnNewGame = new JButton("Setting");
         btnNewGame.setBackground(Color.cyan);
         JButton btnExit = new JButton("Exit");
         btnExit.setBackground(Color.pink);
