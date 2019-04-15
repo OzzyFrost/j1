@@ -2,6 +2,8 @@ package xogame;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Result extends JFrame {
     JButton btn;
@@ -10,6 +12,13 @@ public class Result extends JFrame {
         setTitle("XOGame result");
         btn = new JButton("Player win!");
         add(btn);
+
+        btn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setVisible(false);
+            }
+        });
 
         setVisible(false);
     }
