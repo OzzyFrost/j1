@@ -10,6 +10,7 @@ import static java.lang.Thread.sleep;
 public class XOGame extends JFrame {
 
     JButton[][] btns;
+    JFrame result;
 
     public XOGame() {
         setBounds(300, 200, 600, 630);
@@ -17,6 +18,7 @@ public class XOGame extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         JFrame settingWindow = new Setting();
+        result = new Result();
 
         Font font = new Font("Arial", Font.BOLD, 24);
         btns = new JButton[Logic.SIZE][Logic.SIZE];
@@ -89,6 +91,8 @@ public class XOGame extends JFrame {
             printMap();
             if (Logic.checkWin(Logic.DOT_X)) {
                 System.out.println("Игрок победил!!!");
+                result.setVisible(true);
+
                 return;
             }
             if (Logic.isFull()) {
