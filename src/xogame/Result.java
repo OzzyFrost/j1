@@ -5,8 +5,8 @@ import java.awt.*;
 
 public class Result extends JFrame {
     JButton btn;
-    public Result(){
-        setBounds(300, 200, 400, 400);
+    public Result(int x,int y){
+        setBounds(x, y, 400, 200);
         setTitle("XOGame result");
         btn = new JButton("Player win!");
         add(btn);
