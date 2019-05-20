@@ -3,8 +3,10 @@ package xogame;
 import java.util.Random;
 
 public class Logic {
-    static final int SIZE = 6;
-    static final int DOTS_TO_WIN = 4;
+    static int maxSize = 10;
+
+    static int SIZE = 6;
+    static int DOTS_TO_WIN = 3;
 
     static final char DOT_X = 'X';
     static final char DOT_O = 'O';
@@ -147,4 +149,5 @@ public class Logic {
         }
         return k == 0;
     }
+
 }
